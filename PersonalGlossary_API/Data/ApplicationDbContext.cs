@@ -6,6 +6,7 @@ namespace PersonalGlossary_API.Data
     public class ApplicationDbContext(DbContextOptions options) : DbContext(options)
     {
         public DbSet<Term> Terms { get; set; }
+        public DbSet<User> Users { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

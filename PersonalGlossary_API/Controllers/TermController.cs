@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Identity.Client.NativeInterop;
@@ -12,6 +13,7 @@ namespace PersonalGlossary_API.Controllers
 {
     [Route("api/term")]
     [ApiController]
+    //[Authorize(Roles = "Member, Admin")]
     public class TermController : ControllerBase
     {
         private readonly ApplicationDbContext _db;
@@ -24,16 +26,19 @@ namespace PersonalGlossary_API.Controllers
         }
 
         [HttpGet]
+        //[AllowAnonymous]
+        //[Authorize(Roles = "Member")]
         [ProducesResponseType(typeof(ApiResponse<IEnumerable<TermDTO>>), StatusCodes.Status200OK)]
         public async Task<ActionResult<ApiResponse<IEnumerable<TermDTO>>>> GetTerms()
         {
             var terms = await _db.Terms.ToListAsync();
             var dtoResponseTerm = _mapper.Map<List<TermDTO>>(terms);
-            var response = ApiResponse<IEnumerable<TermDTO>>.Ok(dtoResponseTerm, "Terms retreved succeddfully");
+            var response = ApiResponse<IEnumerable<TermDTO>>.Ok(dtoResponseTerm, "Terms retreved successfully");
             return Ok(response);
         }
 
         [HttpGet("{id:int}")]
+        [Authorize(Roles = "Member")]
         [ProducesResponseType(typeof(ApiResponse<TermDTO>), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ApiResponse<TermDTO>), StatusCodes.Status200OK)]
         [ProducesResponseType(typeof(ApiResponse<TermDTO>), StatusCodes.Status500InternalServerError)]
@@ -106,6 +111,7 @@ namespace PersonalGlossary_API.Controllers
         }
 
         [HttpPut("{id:int}")]
+        //[Authorize(Roles = "Admin")]
         [ProducesResponseType(typeof(ApiResponse<TermDTO>), StatusCodes.Status400BadRequest)]
         [ProducesResponseType(typeof(ApiResponse<TermDTO>), StatusCodes.Status404NotFound)]
         [ProducesResponseType(typeof(ApiResponse<TermDTO>), StatusCodes.Status409Conflict)]
@@ -176,7 +182,6 @@ namespace PersonalGlossary_API.Controllers
             }
             catch (Exception ex)
             {
-
                 var errorResponse = ApiResponse<object>.Error(500, "An error occured while deleting a term", ex.Message);
                 return StatusCode(500, errorResponse);
             }
