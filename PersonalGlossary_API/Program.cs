@@ -75,6 +75,12 @@ builder.Services.AddAutoMapper(o =>
     o.CreateMap<TermUpdateDTO, TermDTO>();
     //Auth
     o.CreateMap<User, UserDTO>();
+    //Category
+    o.CreateMap<CategoryCreateDTO, Category>();
+    o.CreateMap<CategoryUpdateDTO, Category>();
+    o.CreateMap<Category, CategoryDTO>().
+    ForMember(dest => dest.TermTitle, opt => opt.MapFrom(src => src.Term != null ? src.Term.Title : null));
+    o.CreateMap<CategoryUpdateDTO, CategoryDTO>();
 });
 
 builder.Services.AddScoped<IAuthService, AuthService>();

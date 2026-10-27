@@ -12,5 +12,6 @@ namespace PersonalGlossary_API.Models
         public required string Definition { get; set; }
         public DateTime CreatedDate { get; set; }
         public DateTime? UpdatedDate { get; set; }
+        public ICollection<Category> Categories { get; set; }
     }
 }

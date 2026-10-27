@@ -7,6 +7,7 @@ namespace PersonalGlossary_API.Data
     {
         public DbSet<Term> Terms { get; set; }
         public DbSet<User> Users { get; set; }
+        public DbSet<Category> Categories { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

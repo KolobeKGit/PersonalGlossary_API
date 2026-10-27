@@ -22,6 +22,35 @@ namespace PersonalGlossary_API.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("PersonalGlossary_API.Models.Category", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasMaxLength(50)
+                        .HasColumnType("nvarchar(50)");
+
+                    b.Property<int>("TermId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("UpdatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("TermId");
+
+                    b.ToTable("Categories");
+                });
+
             modelBuilder.Entity("PersonalGlossary_API.Models.Term", b =>
                 {
                     b.Property<int>("Id")
@@ -118,6 +147,22 @@ namespace PersonalGlossary_API.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("PersonalGlossary_API.Models.Category", b =>
+                {
+                    b.HasOne("PersonalGlossary_API.Models.Term", "Term")
+                        .WithMany("Categories")
+                        .HasForeignKey("TermId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Term");
+                });
+
+            modelBuilder.Entity("PersonalGlossary_API.Models.Term", b =>
+                {
+                    b.Navigation("Categories");
                 });
 #pragma warning restore 612, 618
         }

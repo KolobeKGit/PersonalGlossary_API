@@ -1,3 +1,5 @@
 <Solution>
+  <Project Path="PersonalGlossary.DTO/PersonalGlossary.DTO.csproj" Id="22a2e258-9f39-48a5-88f2-b1e9e67dc6af" />
+  <Project Path="PersonalGlossaryWeb/PersonalGlossaryWeb.csproj" Id="40bf8c3d-d3a0-4acf-868c-0af5879a6b7f" />
   <Project Path="PersonalGlossary_API/PersonalGlossary_API.csproj" />
 </Solution>
